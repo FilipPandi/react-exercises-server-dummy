@@ -30,4 +30,9 @@ public class TextController {
     public void delete(Long id) {
         textService.deleteText(id);
     }
+
+    @GetMapping("/findByTextType")
+    public TextModel findByTextType(@RequestParam(defaultValue = "") String textType) {
+        return textService.findTextByTextType(textType);
+    }
 }
