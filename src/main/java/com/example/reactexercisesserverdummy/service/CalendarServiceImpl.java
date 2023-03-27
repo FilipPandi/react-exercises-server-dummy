@@ -2,14 +2,13 @@ package com.example.reactexercisesserverdummy.service;
 
 import com.example.reactexercisesserverdummy.dao.CalendarModelRepository;
 import com.example.reactexercisesserverdummy.model.CalendarModel;
-import com.example.reactexercisesserverdummy.model.TextModel;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
-import java.util.TimeZone;
 
 @Service
 public class CalendarServiceImpl implements CalendarService {
@@ -26,13 +25,29 @@ public class CalendarServiceImpl implements CalendarService {
         Optional<CalendarModel> existingCalendarModel =
                 calendarModelRepository.findCalendarModelByDate(calendarModel.getDate());
 
+        Calendar cal = Calendar.getInstance();
+
         if (existingCalendarModel.isPresent()) {
+            cal.setTime(existingCalendarModel.get().getDate());
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            calendarModel.setDate(cal.getTime());
+            existingCalendarModel.get().setDate(cal.getTime());
+
             calendarModelRepository.save(new CalendarModel(
                     existingCalendarModel.get().getId(),
                     existingCalendarModel.get().getDate(),
                     calendarModel.getText()
             ));
         } else {
+            cal.setTime(calendarModel.getDate());
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            calendarModel.setDate(cal.getTime());
             calendarModelRepository.save(calendarModel);
         }
     }
