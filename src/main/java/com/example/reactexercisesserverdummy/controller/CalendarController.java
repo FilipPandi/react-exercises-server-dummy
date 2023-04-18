@@ -4,11 +4,9 @@ import com.example.reactexercisesserverdummy.model.CalendarModel;
 import com.example.reactexercisesserverdummy.service.CalendarService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-
 @RestController
 @RequestMapping("/calendar")
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 public class CalendarController {
 
     private final CalendarService calendarService;
