@@ -21,19 +21,20 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public void saveCalendarText(CalendarModel calendarModel) {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTime(calendarModel.getDate());
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        calendarModel.setDate(cal.getTime());
 
         Optional<CalendarModel> existingCalendarModel =
                 calendarModelRepository.findCalendarModelByDate(calendarModel.getDate());
 
-        Calendar cal = Calendar.getInstance();
-
         if (existingCalendarModel.isPresent()) {
-            cal.setTime(existingCalendarModel.get().getDate());
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            calendarModel.setDate(cal.getTime());
             existingCalendarModel.get().setDate(cal.getTime());
 
             calendarModelRepository.save(new CalendarModel(
