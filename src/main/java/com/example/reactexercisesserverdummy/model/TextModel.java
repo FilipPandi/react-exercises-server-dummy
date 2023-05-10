@@ -15,6 +15,7 @@ public class TextModel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "text_seq")
     @SequenceGenerator(name = "text_seq", allocationSize = 1)
     private Long id;
+    @Column
     private String text;
     @Column(unique = true)
     private TextType textType;
